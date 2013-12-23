@@ -1,6 +1,7 @@
 "use strict";
 
 var
+  moment = require("moment"),
   CONNECTION_STRING = require("./runCalendarConfig.json").dbUrl;
 
 /**
@@ -43,24 +44,18 @@ var Dao = function (db) {
         
       db.connect(CONNECTION_STRING, function (err, client, done) {
         var
-          date = new Date(),
-          tomorrow = new Date(),
-          todayString,
-          query;
+          date = moment.utc().startOf("day"),
+          tomorrow = moment(date).add("days", 1),
+          todayString = date.toISOString();
+          
+        console.log("today=" + date.format());
+        console.log("tomorrow=" + tomorrow.format());
         
         if (err) {
           callback(err, null);
 
           return;
         }
-        
-        date.setHours(0);
-        date.setMinutes(0);
-        date.setSeconds(0);
-        date.setMilliseconds(0);
-        tomorrow.setTime(date.getTime());
-        tomorrow.setDate(date.getDate() + 1);
-        todayString = date.toISOString();
         
         client.query("SELECT * FROM runs WHERE run_date >= $1 ORDER BY distance, runner", [todayString], function (err, result) {
           var i, run;
@@ -73,24 +68,22 @@ var Dao = function (db) {
           }
           
           for (i = 0; i < result.rows.length; i++) {
+            console.log(result.rows[i].run_date);
             run = {
               name: result.rows[i].runner,
               distance: result.rows[i].distance,
-              date: new Date(result.rows[i].run_date)
+              date: result.rows[i].run_date
             };
             
-            date.setHours(run.date.getHours());
-            tomorrow.setHours(run.date.getHours());
-            
-            if (run.date.getTime() === date.getTime()) {
+            if (date.isSame(run.date)) {
               context.todayRuns.push(run);
-            } else if (run.date.getTime() === tomorrow.getTime()) {
+            } else if (tomorrow.isSame(run.date)) {
               context.tomorrowRuns.push(run);
             } else {
               context.laterRuns.push(run);
             }
             
-            run.date = run.date.getDate() + "/" + (run.date.getMonth() + 1) + "/" + run.date.getFullYear();
+            run.date = moment(run.date).format("DD/MM/YYYY");
           }
 
           done();
