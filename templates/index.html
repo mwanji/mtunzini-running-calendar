@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Mtunzini Running Calendar</title>
+    
+    <link rel="stylesheet" type="text/css" href="/runningCalendar.css" />
+  </head>
+  
+  <body>
+    <h1>Mtunzini Running Calendar</h1>
+    
+    <h2>I want to run...</h2>
+    
+    <form method="post" action="/runs">
+      <div>
+        <button type="button" data-date="today">Today</button>
+        <button type="button" data-date="tomorrow" class="selected">Tomorrow</button>
+        <button type="button" data-date="picker">Later...</button>
+      </div>
+      
+      <div id="pickerContainer" class="hidden">
+        <input id="date" type="date" name="date" />
+      </div>
+      
+      <div>
+        <button type="button" data-distance="5">0 to 5K</button>
+        <button type="button" data-distance="10" class="selected">5 to 10K</button>
+        <button type="button" data-distance="15">10 to 15K</button>
+        <button type="button" data-distance="20">15 to 20K</button>
+      </div>
+
+      <div>
+        <label for="name">Name:</label> <input type="text" name="name" id="name" required />
+      </div>
+      
+      <div>
+        <button type="submit">Submit</button>
+        <input id="distance" type="hidden" name="distance" />
+      </div>
+    </form>
+    
+    <h2>Who's running this week?</h2>
+    
+    <h3>Today</h3>
+    <ul>
+      {{#todayRuns}}
+        <li>{{name}} {{distance}}K</li>
+      {{/todayRuns}}
+    </ul>
+    
+    <h3>Tomorrow</h3>
+    <ul>
+      {{#tomorrowRuns}}
+        <li>{{name}} {{distance}}K</li>
+      {{/tomorrowRuns}}
+    </ul>
+    
+    <h3>Later</h3>
+    <ul>
+      {{#laterRuns}}
+        <li>{{date}} {{name}} {{distance}}K</li>
+      {{/laterRuns}}
+    </ul>
+
+    <script>
+      (function () {
+        var
+          form = document.forms[0],
+          pickerContainer = document.getElementById("pickerContainer");
+        
+        var setData = function (type, value) {
+          var input = document.getElementById(type);
+          
+          if (type === "distance") {
+            input.value = value;
+          } else if (type === "date") {
+            switch (value) {
+              case "today":
+                input.value = new Date().toISOString().substring(0, 10);
+                break;
+              case "tomorrow":
+                var tempDate = new Date();
+                tempDate.setDate(tempDate.getDate() + 1);
+                input.value = tempDate.toISOString().substring(0, 10);
+                break;
+              case "picker":
+                pickerContainer.classList.remove("hidden");
+                break;
+            }
+          }
+        };
+        
+        var clickHandler = function (clickEvent) {
+          var
+            trigger = clickEvent.target,
+            type, value;
+          if (trigger.type !== "button") {
+            return;
+          }
+          
+          
+          if (trigger.dataset["date"]) {
+            type = "date";
+            pickerContainer.classList.add("hidden");
+          } else if (trigger.dataset["distance"]) {
+            type = "distance";
+          }
+
+          setData(type, trigger.dataset[type]);
+        };
+        
+        var setSelected = function (clickEvent) {
+          var
+            buttons = clickEvent.target.parentNode.getElementsByTagName("button"),
+            i, length;
+            
+          if (clickEvent.target.type !== "button") {
+            return;
+          }
+          
+          for (i = 0, length = buttons.length; i < length; i++) {
+            buttons[i].classList.remove("selected");
+          }
+          clickEvent.target.classList.add("selected");
+        };
+        
+        setData("date", "tomorrow");
+        setData("distance", "10");
+        
+        form.addEventListener("click", clickHandler, false);
+        form.addEventListener("click", setSelected, false);
+      })();
+    </script>
+  </body>
+</html>

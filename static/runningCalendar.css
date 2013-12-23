@@ -1,0 +1,29 @@
+body {
+  font-family: Helvetica, sans-serif;
+}
+
+button {
+  padding: 1em;
+  background: #ccc;
+  border: 1px solid #aaa;
+  border-radius: 10px;
+}
+
+button.selected {
+  background: #ada;
+}
+
+button[type=submit] {
+  background: #7285d1;
+}
+
+input {
+  height: 1.5em;
+  border: 1px solid #999;
+  border-radius: 5px;
+}
+
+.hidden {
+  display: none;
+}
+

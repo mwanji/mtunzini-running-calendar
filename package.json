@@ -1,0 +1,28 @@
+{
+  "name": "running-calendar",
+  "version": "0.0.0",
+  "description": "A calendar for runs in Mtunzini",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mwanji/running-calendar.git"
+  },
+  "author": "Moandji Ezana <mwanji@gmail.com> (http://moandjiezana.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mwanji/running-calendar/issues"
+  },
+  "homepage": "https://github.com/mwanji/running-calendar",
+  "engines": {
+    "node": "0.10.23"
+  },
+  "dependencies": {
+    "express": "~3.4.7",
+    "pg": "~2.9.0",
+    "mustache-express": "~0.2.3"
+  }
+}
