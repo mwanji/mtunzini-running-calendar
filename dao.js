@@ -48,9 +48,6 @@ var Dao = function (db) {
           tomorrow = moment(date).add("days", 1),
           todayString = date.toISOString();
           
-        console.log("today=" + date.format());
-        console.log("tomorrow=" + tomorrow.format());
-        
         if (err) {
           callback(err, null);
 
@@ -68,7 +65,6 @@ var Dao = function (db) {
           }
           
           for (i = 0; i < result.rows.length; i++) {
-            console.log(result.rows[i].run_date);
             run = {
               name: result.rows[i].runner,
               distance: result.rows[i].distance,
