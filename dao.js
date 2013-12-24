@@ -24,7 +24,7 @@ var Dao = function (db, config) {
           return;
         }
         
-        client.query("INSERT INTO runs (id, runner, run_date, distance) VALUES (DEFAULT, $1,$2,$3) RETURNING id", [run.name, moment(run.date).format("YYYY-MM-DD"), run.distance], function (err, result) {
+        client.query("INSERT INTO runs (id, runs_name, runs_date, distance) VALUES (DEFAULT, $1,$2,$3) RETURNING id", [run.name, moment.utc(run.date).format("YYYY-MM-DD"), run.distance], function (err, result) {
           if (err) {
             callback(err, null);
             return;
@@ -55,7 +55,7 @@ var Dao = function (db, config) {
           return;
         }
         
-        client.query("SELECT * FROM runs WHERE run_date >= $1 ORDER BY run_date, distance, runner", [todayString], function (err, result) {
+        client.query("SELECT * FROM runs WHERE runs_date >= $1 ORDER BY runs_date, distance, runs_name", [todayString], function (err, result) {
           var i, run;
           
           if (err) {
@@ -67,9 +67,9 @@ var Dao = function (db, config) {
           
           for (i = 0; i < result.rows.length; i++) {
             run = {
-              name: result.rows[i].runner,
+              name: result.rows[i].runs_name,
               distance: result.rows[i].distance,
-              date: result.rows[i].run_date
+              date: result.rows[i].runs_date
             };
             
             if (date.isSame(run.date)) {

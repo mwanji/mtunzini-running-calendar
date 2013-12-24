@@ -57,7 +57,7 @@ vows.describe("Dao")
     },
     "Given 1 run today": {
       topic: function () {
-        var dao = new DaoMock([{ id: 1, runner: "Mwanji", run_date: TODAY.toDate(), distance: 10 }]);
+        var dao = new DaoMock([{ id: 1, runs_name: "Mwanji", runs_date: TODAY.toDate(), distance: 10 }]);
         dao.getRuns(this.callback);
       },
       "getting all runs should return the run": function (err, result) {
@@ -67,9 +67,9 @@ vows.describe("Dao")
     "Given 1 run of each type": {
       topic: function () {
         var dao = new DaoMock([
-          { id: 1, runner: "Mwanji", run_date: TODAY.toDate(), distance: 5 },
-          { id: 2, runner: "Awie", run_date: moment(TODAY).add("days", 1).toDate(), distance: 10 },
-          { id: 3, runner: "Jesse", run_date: moment(TODAY).add("days", 2).toDate(), distance: 15 }          
+          { id: 1, runs_name: "Mwanji", runs_date: TODAY.toDate(), distance: 5 },
+          { id: 2, runs_name: "Awie", runs_date: moment(TODAY).add("days", 1).toDate(), distance: 10 },
+          { id: 3, runs_name: "Jesse", runs_date: moment(TODAY).add("days", 2).toDate(), distance: 15 }          
         ]);
         dao.getRuns(this.callback);
       },
