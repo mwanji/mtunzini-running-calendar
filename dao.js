@@ -55,7 +55,7 @@ var Dao = function (db, config) {
           return;
         }
         
-        client.query("SELECT * FROM runs WHERE run_date >= $1 ORDER BY distance, runner", [todayString], function (err, result) {
+        client.query("SELECT * FROM runs WHERE run_date >= $1 ORDER BY run_date, distance, runner", [todayString], function (err, result) {
           var i, run;
           
           if (err) {
