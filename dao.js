@@ -5,13 +5,14 @@ var
   CONNECTION_STRING = require("./runCalendarConfig.json").dbUrl;
 
 /**
- * Dao#save
+ * Constructor.
+ * @param db an object that conforms to the pg module's interface.
  *
+ * Dao#save
  * @param run
  * @param callback(err, id) id of the new record
  *
  * Dao#getRuns
- *
  * @return Object with 3 arrays: todayRuns, tomorrowRuns, laterRuns
  */
 var Dao = function (db) {
@@ -24,13 +25,14 @@ var Dao = function (db) {
           return;
         }
         
-        client.query("INSERT INTO runs (runner, run_date, distance) VALUES ($1,$2,$3)", [run.name, run.date, run.distance], function (err, result) {
+        client.query("INSERT INTO runs (id, runner, run_date, distance) VALUES (DEFAULT, $1,$2,$3) RETURNING id", [run.name, moment(run.date).format("YYYY-MM-DD"), run.distance], function (err, result) {
           if (err) {
-            console.log(err);
+            callback(err, null);
+            return;
           }
           
           done();
-          callback(null, result.oid);
+          callback(null, result.rows[0]);
         });    
       });
     },

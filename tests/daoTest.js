@@ -20,6 +20,26 @@ var
       }
     });
   },
+  InsertDaoMock = function (options) {
+    var dao,
+      connect = function (url, callback) {
+      var client = {
+        query: function (sql, values, callback) {
+          dao.sql = sql;
+          dao.values = values;
+          callback(options.err, options.result);
+        }
+      };
+
+      callback(null, client, options.done || function () {});
+    };
+    
+    dao = new Dao({
+      connect: connect
+    });
+    
+    return dao;
+  },
   TODAY = moment().utc().startOf("day");
   
 vows.describe("Dao")
@@ -57,6 +77,41 @@ vows.describe("Dao")
         assert.deepEqual(result.todayRuns, [{name: "Mwanji", date: TODAY.format("DD/MM/YYYY"), distance: 5}]);
         assert.deepEqual(result.tomorrowRuns, [{name: "Awie", date: moment(TODAY).add("days", 1).format("DD/MM/YYYY"), distance: 10}]);
         assert.deepEqual(result.laterRuns, [{name: "Jesse", date: moment(TODAY).add("days", 2).format("DD/MM/YYYY"), distance: 15}]);
+      }
+    },
+    "On save,": {
+      "given a run": {
+        topic: function () {
+          var dao = new InsertDaoMock({
+            result: {
+              rows: [15]
+            }
+          });
+          
+          return dao;
+        },
+        "should call correct SQL": function (dao) {
+          dao.save({ name: "Mwanji", date: TODAY.toDate(), distance: 10 }, function (err, newId) {
+            assert.match(dao.sql, /^INSERT INTO runs/);
+            assert.deepEqual(dao.values, ["Mwanji", TODAY.format("YYYY-MM-DD"), 10]);
+            assert.equal(newId, 15);
+          });
+        }
+      },
+      "given an error": {
+        topic: function () {
+          var dao = new InsertDaoMock({
+            err: true,
+            done: function () {
+              assert.fail("Must not call done()!")
+            }
+          });
+          
+          return dao;
+        },
+        "should not call done()": function (dao) {
+          dao.save({}, function () {});
+        }
       }
     }
   })
