@@ -37,7 +37,6 @@ app.post("/runs", function (req, res) {
       return;
     }
     
-    console.log("new record oid: " + id);
     res.redirect("/");
   });
 });
