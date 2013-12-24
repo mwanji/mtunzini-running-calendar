@@ -1,8 +1,7 @@
 "use strict";
 
 var
-  moment = require("moment"),
-  CONNECTION_STRING = require("./runCalendarConfig.json").dbUrl;
+  moment = require("moment");
 
 /**
  * Constructor.
@@ -15,10 +14,10 @@ var
  * Dao#getRuns
  * @return Object with 3 arrays: todayRuns, tomorrowRuns, laterRuns
  */
-var Dao = function (db) {
+var Dao = function (db, config) {
   return {
     save: function (run, callback) {
-      db.connect(CONNECTION_STRING, function (err, client, done) {
+      db.connect(config.dbUrl, function (err, client, done) {
         if (err) {
           callback(err, null);
           
@@ -44,7 +43,7 @@ var Dao = function (db) {
           laterRuns: []
         };
         
-      db.connect(CONNECTION_STRING, function (err, client, done) {
+      db.connect(config.dbUrl, function (err, client, done) {
         var
           date = moment.utc().startOf("day"),
           tomorrow = moment(date).add("days", 1),

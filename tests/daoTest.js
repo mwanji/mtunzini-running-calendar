@@ -18,7 +18,7 @@ var
         
         callback(null, client, function () {});
       }
-    });
+    }, {});
   },
   InsertDaoMock = function (options) {
     var dao,
@@ -36,7 +36,7 @@ var
     
     dao = new Dao({
       connect: connect
-    });
+    }, {});
     
     return dao;
   },

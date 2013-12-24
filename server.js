@@ -1,6 +1,8 @@
 var
+  env = process.argv[2],
+  config = require("./Config.js")(env),
   pg = require("pg"),
-  dao = require("./dao.js")(pg),
+  dao = require("./dao.js")(pg, config),
   express = require("express"),
   mustache = require("mustache-express"),
   app = express();

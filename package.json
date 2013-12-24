@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "node_modules/vows/bin/vows --spec tests/*",
-    "start": "node server.js"
+    "start": "node server.js dev"
   },
   "repository": {
     "type": "git",
