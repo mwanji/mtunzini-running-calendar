@@ -43,25 +43,40 @@
     <h2>Who's running this week?</h2>
     
     <h3>Today</h3>
-    <ul>
+    <table>
+      <tbody>
       {{#todayRuns}}
-        <li>{{name}} {{distance}}K</li>
+        <tr>
+          <td>{{name}}</td><td>{{distance}}K</td>
+        </tr>
       {{/todayRuns}}
-    </ul>
+      </tbody>
+    </table>
     
     <h3>Tomorrow</h3>
-    <ul>
+    <table>
       {{#tomorrowRuns}}
-        <li>{{name}} {{distance}}K</li>
+        <tr>
+          <td>{{name}}</td><td>{{distance}}K</td>
+        </tr>
       {{/tomorrowRuns}}
-    </ul>
+    </table>
     
     <h3>Later</h3>
-    <ul>
+    <table>
+      <tbody>
       {{#laterRuns}}
-        <li>{{date}} {{name}} {{distance}}K</li>
+        <tr>
+          <td colspan="2" class="runDivider">{{date}}</td>
+        </tr>
+        {{#runs}}
+          <tr>
+            <td>{{name}}</td><td>{{distance}}K</td>
+          </tr>
+        {{/runs}}
       {{/laterRuns}}
-    </ul>
+      </tbody>
+    </table>
 
     <script>
       (function () {

@@ -1,5 +1,7 @@
 body {
   font-family: Helvetica, sans-serif;
+  width: 90%;
+  margin: auto;
 }
 
 button {
@@ -21,6 +23,24 @@ input {
   height: 1.5em;
   border: 1px solid #999;
   border-radius: 5px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+tr {
+  vertical-align: middle;
+}
+
+td, th {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+}
+
+.runDivider {
+  background-color: #ccc;
 }
 
 .hidden {
