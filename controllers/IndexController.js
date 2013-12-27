@@ -27,7 +27,26 @@ var IndexController = function (app, dao) {
           });
         }
         
-        viewData.laterRuns[viewData.laterRuns.length - 1].runs.push(result.laterRuns[i])
+        let distance;
+        switch (result.laterRuns[i].distance) {
+          case 5:
+            distance = "0 to 5K";
+            break;
+          case 10:
+            distance = "5 - 10K";
+            break;
+          case 15:
+            distance = "10 - 15K";
+            break;
+          case 20:
+            distance = "15 - 20K";
+            break;
+        }
+        
+        viewData.laterRuns[viewData.laterRuns.length - 1].runs.push({ 
+          name: result.laterRuns[i].name,
+          distance: distance
+        });
       }
       
       res.render("index", viewData);
