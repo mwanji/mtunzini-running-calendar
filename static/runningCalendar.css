@@ -24,6 +24,8 @@ input {
   height: 1.5em;
   border: 1px solid #999;
   border-radius: 5px;
+  outline: none;
+  padding: 0.5em;
 }
 
 table {
