@@ -40,6 +40,11 @@ var
     
     return dao;
   },
+  assertRunsEqual = function (actual, expected) {
+    assert.equal(actual.name, expected.name);
+    assert.equal(actual.distance, actual.distance);
+    assert.isTrue(actual.date.isSame(expected.date), "Expected date: " + expected.date + " but got: " + actual.date);
+  },
   TODAY = moment().utc().startOf("day");
   
 vows.describe("Dao")
@@ -61,7 +66,8 @@ vows.describe("Dao")
         dao.getRuns(this.callback);
       },
       "getting all runs should return the run": function (err, result) {
-        assert.deepEqual(result.todayRuns, [{name: "Mwanji", date: TODAY.format("DD/MM/YYYY"), distance: 10}]);
+        assert.lengthOf(result.todayRuns, 1);
+        assertRunsEqual(result.todayRuns[0], {name: "Mwanji", date: TODAY, distance: 10});
       }
     },
     "Given 1 run of each type": {
@@ -74,9 +80,12 @@ vows.describe("Dao")
         dao.getRuns(this.callback);
       },
       "each type should have 1 run": function (err, result) {
-        assert.deepEqual(result.todayRuns, [{name: "Mwanji", date: TODAY.format("DD/MM/YYYY"), distance: 5}]);
-        assert.deepEqual(result.tomorrowRuns, [{name: "Awie", date: moment(TODAY).add("days", 1).format("DD/MM/YYYY"), distance: 10}]);
-        assert.deepEqual(result.laterRuns, [{name: "Jesse", date: moment(TODAY).add("days", 2).format("DD/MM/YYYY"), distance: 15}]);
+        assert.lengthOf(result.todayRuns, 1);
+        assert.lengthOf(result.tomorrowRuns, 1);
+        assert.lengthOf(result.laterRuns, 1);
+        assertRunsEqual(result.todayRuns[0], {name: "Mwanji", date: TODAY, distance: 5});
+        assertRunsEqual(result.tomorrowRuns[0], {name: "Awie", date: moment(TODAY).add("days", 1), distance: 10});
+        assertRunsEqual(result.laterRuns[0], {name: "Jesse", date: moment(TODAY).add("days", 2), distance: 15});
       }
     },
     "On save,": {

@@ -69,7 +69,7 @@ var Dao = function (db, config) {
             run = {
               name: result.rows[i].runs_name,
               distance: result.rows[i].distance,
-              date: result.rows[i].runs_date
+              date: moment(result.rows[i].runs_date)
             };
             
             if (date.isSame(run.date)) {
@@ -80,7 +80,7 @@ var Dao = function (db, config) {
               context.laterRuns.push(run);
             }
             
-            run.date = moment(run.date).format("DD/MM/YYYY");
+            run.date = moment(run.date);
           }
 
           done();
