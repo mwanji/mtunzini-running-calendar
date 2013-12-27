@@ -9,6 +9,7 @@ button {
   background: #ccc;
   border: 1px solid #aaa;
   border-radius: 10px;
+  outline: none;
 }
 
 button.selected {
