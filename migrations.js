@@ -30,7 +30,7 @@ const up = function (env, config) {
 
   dbMigrate.connect(options, function (err, migrator) {
       migrator.migrationsDir = path.resolve("migrations");
-      migrator.driver.createMigrationsTable(function(err) {
+      migrator.driver.createMigrationsTable(function (err) {
         if (err) {
           console.error(err);
           return;
