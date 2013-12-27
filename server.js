@@ -22,17 +22,7 @@ app.engine("html", mustache());
 app.set("view engine", "html");
 app.set("views", __dirname + "/templates");
 
-app.get("/", function (req, res) {
-  dao.getRuns(function (err, result) {
-    if (err) {
-      console.error(err);
-      res.send(500, "Could not retrieve runs");
-      
-      return;
-    }
-    res.render("index", result);
-  });
-});
+require("./controllers/IndexController.js")(app, dao);
 
 app.post("/runs", function (req, res) {
   dao.save(req.body, function (err, id) {
