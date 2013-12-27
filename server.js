@@ -8,7 +8,6 @@ var
   mustache = require("mustache-express"),
   app = express();
   
-  
 migrations.up(env, config);
 
 pg.on("error", function (err, client) {
@@ -23,19 +22,7 @@ app.set("view engine", "html");
 app.set("views", __dirname + "/templates");
 
 require("./controllers/IndexController.js")(app, dao);
-
-app.post("/runs", function (req, res) {
-  dao.save(req.body, function (err, id) {
-    if (err) {
-      console.error(err);
-      res.send(500, "Could not create run");
-      
-      return;
-    }
-    
-    res.redirect("/");
-  });
-});
+require("./controllers/RunsController.js")(app, dao);
 
 app.listen(3000);
 
