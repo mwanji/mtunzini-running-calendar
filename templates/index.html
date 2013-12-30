@@ -2,7 +2,10 @@
 
 <html>
   <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Mtunzini Running Calendar</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     
     <link rel="stylesheet" type="text/css" href="/runningCalendar.css" />
   </head>
@@ -78,6 +81,7 @@
       </tbody>
     </table>
 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.4.0/moment.min.js"></script>
     <script>
       (function () {
         var
@@ -92,12 +96,10 @@
           } else if (type === "date") {
             switch (value) {
               case "today":
-                input.value = new Date().toISOString().substring(0, 10);
+                input.value = moment().format("YYYY-MM-DD");
                 break;
               case "tomorrow":
-                var tempDate = new Date();
-                tempDate.setDate(tempDate.getDate() + 1);
-                input.value = tempDate.toISOString().substring(0, 10);
+                input.value = moment().add(1, 'days').format("YYYY-MM-DD");
                 break;
               case "picker":
                 pickerContainer.classList.remove("hidden");
