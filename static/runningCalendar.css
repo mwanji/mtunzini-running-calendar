@@ -1,3 +1,16 @@
+html,
+button,
+input,
+select,
+textarea {
+    color: #222;
+}
+
+html {
+    font-size: 1em;
+    line-height: 1.4;
+}
+
 body {
   font-family: Helvetica, sans-serif;
   width: 90%;
