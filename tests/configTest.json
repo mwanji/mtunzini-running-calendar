@@ -1,0 +1,11 @@
+{
+  "simpleVars": {
+    "dbUrl": "local_db",
+    "port": 3000
+  },
+  "envVars": {
+    "dbUrl": "env:DATABASE_URL",
+    "port": "env:PORT",
+    "hardcoded": "a value"
+  }
+}

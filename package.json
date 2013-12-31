@@ -4,7 +4,7 @@
   "description": "A calendar for runs in Mtunzini",
   "main": "server.js",
   "scripts": {
-    "test": "node --harmony ./node_modules/vows/bin/vows --spec tests/*",
+    "test": "node --harmony ./node_modules/vows/bin/vows --spec tests/*.js",
     "start": "node --harmony server.js dev",
     "rollback": "node --harmony migrations.js rollback dev"
   },
