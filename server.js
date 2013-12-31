@@ -24,5 +24,5 @@ app.set("views", __dirname + "/templates");
 require("./controllers/IndexController.js")(app, dao);
 require("./controllers/RunsController.js")(app, dao);
 
-app.listen(3000);
+app.listen(config.port);
 
